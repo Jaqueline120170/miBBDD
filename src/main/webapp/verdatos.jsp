@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+	pageEncoding="UTF-8"%>
+
 <%@page import="mipk.beanDB"%>
 <%@page import="java.sql.SQLException"%>
 
 <%
-try {  //AQUI VA EL CONTROL DE SESION
+try { //AQUI VA EL CONTROL DE SESION
 	String acceso = session.getAttribute("attributo1").toString();
- 	if (!acceso.equals("1")) response.sendRedirect("cerrarsesion.jsp");
+	if (!acceso.equals("1"))
+		response.sendRedirect("cerrarsesion.jsp");
 } catch (Exception e) {
 	response.sendRedirect("cerrarsesion.jsp");
 }
@@ -24,8 +25,8 @@ try {
 	//e.printStackTrace();
 }
 if (okdb) {
-	String query="select concat('La Base de Datos dice que ahora es... ', now() )";
-	String [][] tablares = null;
+	String query = "SELECT * FROM CLIENTES";
+	String[][] tablares = null;
 	try {
 		tablares = db.resConsultaSelectA3(query);
 	} catch (SQLException e) {
@@ -33,25 +34,34 @@ if (okdb) {
 		e.printStackTrace();
 	}
 	if (tablares != null) {
-		
-		resultado = "<table style=''>";
-		for (int i=0; i<tablares.length;i++) { //g es una variable tipo grupo que va recorriendo la lista
+		//resultado = "<table style=''>";
+		resultado = "<table style='margin-left: auto; margin-right: auto; border: solid 0.5px black;'>";
+		resultado += "<thead>";
+		resultado += "<th style ='border-bottom: solid 0.5px black;'>Id</th>";
+		resultado += "<th style ='border-bottom: solid 0.5px black;'>nombre</th>";
+		resultado += "<th style ='border-bottom: solid 0.5px black;'>apellidos</th>";
+		resultado += "<th style ='border-bottom: solid 0.5px black;'>celular</th>";
+		resultado += "<th style ='border-bottom: solid 0.5px black;'>direccion</th>";
+		resultado += "<th style ='border-bottom: solid 0.5px black;'>correo_electronico</th>";
+		resultado += "</thead>";
+		for (int i = 0; i < tablares.length; i++) {
 			resultado += "<tr>";
 			resultado += "<td>" + tablares[i][0] + "</td>";
 			resultado += "<td>" + tablares[i][1] + "</td>";
 			resultado += "<td>" + tablares[i][2] + "</td>";
+			resultado += "<td>" + tablares[i][3] + "</td>";
+			resultado += "<td>" + tablares[i][4] + "</td>";
+			resultado += "<td>" + tablares[i][5] + "</td>";
 			resultado += "</tr>";
 		}
+
 		resultado += "</table>";
-		
+
 	}
 	db.desconectarBD();
-}
-else {
+} else {
 	resultado = "<div style='color: darkred; font-weight: bold;'>ERROR: No se pudo conectar con la BBDD</div>";
 }
-
-
 %>
 <html>
 <head>
@@ -60,13 +70,19 @@ else {
 
 </head>
 <body>
-<h1><%=session.getAttribute("attributo2") %>: Estos son los datos datos</h1>
-<hr/>
-<p><a href="bienvenido.jsp">Página principal</a></p>
-<p><a href="cerrarsesion.jsp">Salir</a></p>
-<hr/>
-<%=resultado %>
-<div id="contenedor1">
-</div>
+	<h1><%=session.getAttribute("attributo2")%>: Estos son los datos
+		datos
+	</h1>
+	<hr />
+	<p>
+		<a href="bienvenido.jsp">Página principal</a>
+	</p>
+	<p>
+		<a href="cerrarsesion.jsp">Salir</a>
+	</p>
+	<hr />
+	<%=resultado%>
+	<div id="contenedor1"></div>
 
-</body></html>
+</body>
+</html>
