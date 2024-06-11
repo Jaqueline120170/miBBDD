@@ -1,25 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>User Check</title>
+<%
+String usuario = "";
+String mensaje = "";
+try { //AQUI VA EL CONTROL DE SESION
+	usuario = session.getAttribute("attributo2").toString();
+	String acceso = session.getAttribute("attributo1").toString();
+	mensaje = "La sesion esta abierta";
+	if (!acceso.equals("1"))
+	mensaje = "La sesion esta cerrada";
+} catch (Exception e) {
+	mensaje = "La sesion esta cerrada";
+}
+%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Session checker</title>
+<link rel="stylesheet" href="common/general.css">
 </head>
 <body>
-    <%
-        // Verifica si el usuario está autenticado
-        String attributo1 = (String) session.getAttribute("attributo1");
-        boolean isAuthenticated = attributo1 != null && attributo1.equals("1");
-    %>
-    
-    <c:choose>
-        <c:when test="${isAuthenticated}">
-            <h2>El usuario está autenticado correctamente.</h2>
-        </c:when>
-        <c:otherwise>
-            <h2>El usuario no está autenticado.</h2>
-        </c:otherwise>
-    </c:choose>
+	<h1>Session checker</h1>
+	<h4>Verificando si su sesión se ha autenticado correctamente...</h4>
+	<p><%=mensaje%>
 </body>
 </html>
